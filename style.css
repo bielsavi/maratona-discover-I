@@ -1,7 +1,9 @@
 /* Global ============== */
 
-:root{
+:root {
     --dark-blue: #363F5F;
+    --white: #FFF;
+    --background-global: #f0f2f5;
 }
 
 * {
@@ -11,19 +13,19 @@
 }
 
 body {
-    background: #F0F2F5;
+    background: var(--background-global);
     font-family: 'Poppins', sans-serif;
 }
 
 .container {
-    width: min(90vw, 800px) ;
+    width: min(90vw, 800px);
     margin: auto;
 }
 
 
 /* Titles ============== */
 
-h2{
+h2 {
     margin-top: 3.2rem;
     margin-bottom: 0.8rem;
     color: var(--dark-blue);
@@ -39,38 +41,38 @@ header {
 }
 
 #logo {
-    color: #FFF;
+    color: var(--white);
     font-weight: 100;
 }
 
 /* Balance ============== */
 
-#balance{
+#balance {
     margin-top: -8rem;
 }
 
-#balance h2{
-    color: #FFF;
+#balance h2 {
+    color: var(--white);
     margin-top: 0rem;
 
 }
 
 /* Cards ============== */
 
-.card{
-    background: #FFF;
+.card {
+    background: var(--white);
     padding: 1.5rem 2rem;
     border-radius: 0.25rem;
     margin-bottom: 2rem;
     color: var(--dark-blue);
 }
 
-.card h3{
+.card h3 {
     font-weight: normal;
     font-size: 1rem;
 }
 
-.card p{
+.card p {
     font-size: 2rem;
     line-height: 3rem;
     margin-top: 1rem;
@@ -78,11 +80,59 @@ header {
 
 .card.total {
     background: #49aa26;
-    color: #FFF;
+    color: var(--white);
+}
+
+/* Table ============== */
+
+#data-table {
+    width: 100%;
+    border-spacing: 0 0.5rem;
+    color: #969cb3;
+}
+
+table thead tr th:first-child,
+table tbody tr td:first-child {
+    border-radius: 0.25rem 0 0 0.25rem;
+}
+
+table thead th {
+    background: var(--white);
+    
+    font-weight: normal;
+    padding: 1rem 2rem;
+    text-align: left;
+}
+
+table tbody tr {
+    opacity: 0.7;
+}
+
+table tbody tr:hover {
+    opacity: 1;
+}
+
+table tbody td {
+    background: var(--white);
+    padding: 1rem 2rem;
+}
+
+td.description{
+    color: var(--dark-blue)
+}
+
+td.income{
+    color: #12A454;
+
+}
+td.expense{
+    color: #E92929;
 }
 
 /* Footer ============== */
 footer {
     text-align: center;
+    padding: 4rem 0 2rem;
+    color: var(--dark-blue);
+    opacity: 0.6;
 }
-
