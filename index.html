@@ -25,26 +25,26 @@
                 <h3><span>Entradas</span>
                     <img src="./assets/income.svg" alt="Imagem de Entradas">
                 </h3>
-                <p>R$ 5.000,00</p>
+                <p id="incomeDisplay">R$ 5.000,00</p>
             </div>
             <div class="card">
                 <h3><span>Saídas</span>
                     <img src="./assets/expense.svg" alt="Imagem de Saídas">
                 </h3>
-                <p>R$ 5.000,00</p>
+                <p id="expenseDisplay">R$ 5.000,00</p>
             </div>
             <div class="card total">
                 <h3><span>Total</span>
                     <img src="./assets/total.svg" alt="Imagem de Total">
                 </h3>
-                <p>R$ 5.000,00</p>
+                <p id="totalDisplay">R$ 5.000,00</p>
             </div>
 
         </section>
         <section id="transaction">
             <h2 class="sr-only">Transações</h2>
 
-            <a href="#" class="button new">+ Nova Transação</a>
+            <a href="#" onclick="Modal.open()" class="button new">+ Nova Transação</a>
 
             <table id="data-table">
                 <thead>
@@ -56,7 +56,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <!-- <tr>
                         <td class="description">Luz</td>
                         <td class="expense">R$500,00</td>
                         <td class="date">23/01/2021</td>
@@ -79,7 +79,7 @@
                         <td>
                             <img src="./assets/minus.svg" alt="Remover Transação">
                         </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
         </section>
@@ -103,9 +103,10 @@
                     <div class="input-group">
                         <label class="sr-only" for="date">Data</label>
                         <input type="date" id="date" name="date" />
+                        <br><small class="help">Insira a Data da Transação</small>
                     </div>
                     <div class="input-group actions">
-                        <a href="" class="button cancel">Cancelar</a>
+                        <a onclick="Modal.close()" href="#" class="button cancel">Cancelar</a>
                         <button>Salvar</button>
                     </div>
 
@@ -114,9 +115,13 @@
         </div>
     </div>
 
+
     <footer class="container">
-        <p>dev.finance$</p>
+        <p>2022 - dev.finance$</p>
     </footer>
+
+    <script src="./script.js">
+    </script>
 </body>
 
 </html>
