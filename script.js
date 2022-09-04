@@ -1,54 +1,49 @@
+
+//Abrir e Fechar Modal
 const Modal = {
     open() {
-        //Abrir o Modal
-        //Adicionar a classe active no modal
-        document.querySelector('.modal-overlay')
-            .classList.add('active')
+
+        document
+            .querySelector('.modal-overlay')
+            .classList
+            .add('active')
+
     },
     close() {
-        //Fechar o Modal
-        //Remover a classe active no modal
-        document.querySelector('.modal-overlay')
-            .classList.remove('active')
+
+        document
+            .querySelector('.modal-overlay')
+            .classList
+            .remove('active')
     }
 }
 
-const transactions = [
-    {
-        id: 1,
-        description: 'Luz',
-        amount: -50000,
-        date: '23/01/2021',
+const Storage = {
+    get() {
+        return JSON.parse(localStorage.getItem("dev.finances:transactions")) || []
     },
-    {
-        id: 2,
-        description: 'Website',
-        amount: 500000,
-        date: '23/01/2021',
-    },
-    {
-        id: 3,
-        description: 'Internet',
-        amount: -20000,
-        date: '23/01/2021',
-    },
-    {
-        id: 4,
-        description: 'App',
-        amount: 200000,
-        date: '23/01/2021',
-    },
-]
 
+    set(transactions) {
+        localStorage.setItem("dev.finances:transactions", JSON.stringify(transactions))
+    }
+}
+//Adicionar e Remover Transações
 const Transaction = {
-    all: transactions,
-    add(transaction){
+    all: Storage.get(),
+
+    add(transaction) {
         Transaction.all.push(transaction)
 
         App.reload()
     },
+
+    remove(index) {
+        Transaction.all.splice(index, 1)
+
+        App.reload()
+    },
+    //Lógica das contas de soma, subtração e total
     incomes() {
-        //somatória das entradas
         let income = 0;
         Transaction.all.forEach(transaction => {
             if (transaction.amount > 0) {
@@ -59,7 +54,6 @@ const Transaction = {
     },
 
     expenses() {
-        //somatória das saídas
         let expense = 0;
         Transaction.all.forEach(transaction => {
             if (transaction.amount < 0) {
@@ -68,61 +62,76 @@ const Transaction = {
         })
         return expense;
     },
+
     total() {
-        //entradas - saídas
-        return Transaction.incomes() + Transaction.expenses()
-    },
+        return Transaction.incomes() + Transaction.expenses();
+    }
 }
-
 //Substituir os dados do HTML com os dados do JS
-
 const DOM = {
     transactionsContainer: document.querySelector('#data-table tbody'),
 
     addTransaction(transaction, index) {
-        console.log(transaction)
         const tr = document.createElement('tr')
-        tr.innerHTML = DOM.innerHTMLTransaction(transaction)
+        tr.innerHTML = DOM.innerHTMLTransaction(transaction, index)
+        tr.dataset.index = index
 
         DOM.transactionsContainer.appendChild(tr)
     },
-    innerHTMLTransaction(transaction) {
+
+    innerHTMLTransaction(transaction, index) {
         const CSSclass = transaction.amount > 0 ? "income" : "expense"
 
         const amount = Utils.formatCurrency(transaction.amount)
 
         const html = `
-            <td class="description">${transaction.description}</td>
-            <td class="${CSSclass}">${amount}</td>
-            <td class="date">${transaction.date}</td>
-            <td>
-                <img src="./assets/minus.svg" alt="Remover Transação">
-            </td>
+        <td class="description">${transaction.description}</td>
+        <td class="${CSSclass}">${amount}</td>
+        <td class="date">${transaction.date}</td>
+        <td>
+            <img onclick="Transaction.remove(${index})" src="./assets/minus.svg" alt="Remover transação">
+        </td>
         `
 
         return html
     },
-//Atualizar o Total
+
     updateBalance() {
-        document.getElementById('incomeDisplay')
+        document
+            .getElementById('incomeDisplay')
             .innerHTML = Utils.formatCurrency(Transaction.incomes())
-        document.getElementById('expenseDisplay')
+        document
+            .getElementById('expenseDisplay')
             .innerHTML = Utils.formatCurrency(Transaction.expenses())
-        document.getElementById('totalDisplay')
+        document
+            .getElementById('totalDisplay')
             .innerHTML = Utils.formatCurrency(Transaction.total())
     },
-    clearTransactions(){
+
+    clearTransactions() {
         DOM.transactionsContainer.innerHTML = ""
     }
-
 }
 //Formato da Moeda
 const Utils = {
+    formatAmount(value) {
+        value = Number(value.replace(/\,\./g, "")) * 100
+
+        return value
+    },
+
+    formatDate(date) {
+        const splittedDate = date.split("-")
+        return `${splittedDate[2]}/${splittedDate[1]}/${splittedDate[0]}`
+    },
+
     formatCurrency(value) {
         const signal = Number(value) < 0 ? "-" : ""
-//Divisão dos numeros por 100 para adicionar a virgula
+
         value = String(value).replace(/\D/g, "")
+
         value = Number(value) / 100
+
         value = value.toLocaleString("pt-BR", {
             style: "currency",
             currency: "BRL"
@@ -131,27 +140,83 @@ const Utils = {
         return signal + value
     }
 }
+//Captura de dados do Formulário
+const Form = {
+//Verificar se as informações foram todas preenchidas
+//Formatação dos dados para salvar
+//Salvar os dados
+//Apagar os dados do formulário
+//Fechar o Modal depois de salvar os dados
+//Atualizar a aplicação
+    description: document.querySelector('input#description'),
+    amount: document.querySelector('input#amount'),
+    date: document.querySelector('input#date'),
 
+    getValues() {
+        return {
+            description: Form.description.value,
+            amount: Form.amount.value,
+            date: Form.date.value
+        }
+    },
+
+    validateFields() {
+        const { description, amount, date } = Form.getValues()
+
+        if (description.trim() === "" ||
+            amount.trim() === "" ||
+            date.trim() === "") {
+            throw new Error("Preencha todos os campos")
+        }
+    },
+
+    formatValues() {
+        let { description, amount, date } = Form.getValues()
+
+        amount = Utils.formatAmount(amount)
+
+        date = Utils.formatDate(date)
+
+        return {
+            description,
+            amount,
+            date
+        }
+    },
+
+    clearFields() {
+        Form.description.value = ""
+        Form.amount.value = ""
+        Form.date.value = ""
+    },
+
+    submit(event) {
+        event.preventDefault()
+
+        try {
+            Form.validateFields()
+            const transaction = Form.formatValues()
+            Transaction.add(transaction)
+            Form.clearFields()
+            Modal.close()
+        } catch (error) {
+            alert(error.message)
+        }
+    }
+}
+//Reiniciar funcionalidades da página 
 const App = {
     init() {
-        
-Transaction.all.forEach(transaction => {
-    DOM.addTransaction(transaction)
-})
+        Transaction.all.forEach(DOM.addTransaction)
+
         DOM.updateBalance()
+
+        Storage.set(Transaction.all)
     },
-    //Após o carregamento das Transações, limpar todas antes de rodar a função
     reload() {
         DOM.clearTransactions()
-        App.init()        
+        App.init()
     },
 }
 
 App.init()
-//Exemplo de Transação
-Transaction.add({
-    id: 39,
-    description: "Alo",
-    amount: 5000,
-    date: '23/01/2021'
-})

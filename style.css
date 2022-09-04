@@ -3,8 +3,8 @@
 :root {
     --dark-blue: #363F5F;
     --white: #FFF;
-    --green: #49AA26;
-    --light-green: #3DD705;
+    --purple: #5d007c;
+    --light-green: #009856;
     --red: #E92929;
 }
 
@@ -15,13 +15,22 @@
 }
 
 html {
-    font-size: 93.75%;
-    /* Fonte de 15px*/
+    font-size: 75%;
+    /* Fonte de 12px*/
 }
 
-body {
+body{
     background: #f0f2F5;
     font-family: 'Poppins', sans-serif;
+}
+
+input{
+    font-family: 'Poppins', sans-serif;
+}
+
+main img{
+    width: 15px;
+    height: 15px;
 }
 
 .sr-only {
@@ -43,6 +52,10 @@ body {
 
 
 /* Titles ============== */
+h1{
+    color: var(--white);
+    font-size: 2rem;
+}
 
 h2 {
     margin-top: 3.2rem;
@@ -54,7 +67,7 @@ h2 {
 /* Links & Buttons ============== */
 
 a {
-    color: var(--green);
+    color: var(--purple);
     text-decoration: none;
 }
 
@@ -69,10 +82,11 @@ button{
 
     border: none;
     color: var(--white);
-    background: var(--green);
+    background: var(--purple);
     border-radius: 0.25rem;
     padding: 0;
     cursor: pointer;
+    transition: 0.3s;
 
 }
 
@@ -104,7 +118,7 @@ button:hover{
 
 /* Header ============== */
 header {
-    background: #2D4A22;
+    background: var(--light-green);
     padding: 2rem 0 10rem;
     text-align: center;
 
@@ -149,11 +163,11 @@ header {
 .card p {
     font-size: 2rem;
     line-height: 3rem;
-    margin-top: 1rem;
+    margin-top: 3rem;
 }
 
 .card.total {
-    background: var(--green);
+    background: var(--purple);
     color: var(--white);
 }
 
@@ -185,7 +199,7 @@ table thead th {
     background: var(--white);
 
     font-weight: normal;
-    padding: 1rem 2rem;
+    padding: 1rem 1rem;
     text-align: left;
 }
 
@@ -199,7 +213,7 @@ table tbody tr:hover {
 
 table tbody td {
     background: var(--white);
-    padding: 1rem 2rem;
+    padding: 1rem 1rem;
 }
 
 td.description {
@@ -220,7 +234,7 @@ td.expense {
 .modal-overlay{
     width: 100%;
     height: 100%;
-    background-color: rgb(0,0,0,0.15);
+    background-color: rgba(0, 0, 0, 0.5);
     position: fixed;
     top: 0;
     display: flex;
@@ -229,7 +243,7 @@ td.expense {
     opacity: 0;
     visibility: hidden;
     z-index: 500;
-    transition: 0.5s;
+    transition: 0.3s;
 
 }
 
@@ -311,3 +325,4 @@ footer {
     }
 
 }
+
